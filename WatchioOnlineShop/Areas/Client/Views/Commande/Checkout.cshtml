@@ -1,0 +1,64 @@
+﻿@using WatchioOnlineShop.Models;
+@model IList<article>
+
+@{ ViewData["Title"] = "Checkout"; }
+
+@{
+    double prixTotal = 0;
+    @foreach (var item in Model)
+    {
+        prixTotal += item.prix;
+    }
+}
+
+<div class="row">
+    <table class="table table-bordered">
+        <thead>
+            <tr>
+                <th>Image</th>
+                <th>Article</th>
+                <th>Prix</th>
+                <th>Categorie</th>
+                <th></th>
+                <th></th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var item in Model)
+            {
+                <tr>
+                    <td>
+                        <img src="~/@item.image" width="200px" height="150px" />
+
+                    </td>
+                    <td>@item.name</td>
+                    <td>@item.prix</td>
+                    <td>@item.categorie.name</td>
+                    <td>
+
+                        @*<a asp-area="Client" asp-action="supprimmerPanier" asp-controller="Home" asp-route-id="@item.Id" class="btn btn-danger">
+                                Annuler
+                            </a>*@
+
+                    </td>
+                </tr>
+            }
+        </tbody>
+    </table>
+</div>
+<div class="row">
+    <div class="col-6">
+        <a asp-action="Index" asp-controller="Home" class="btn btn-success">Naviguer Articles</a>
+    </div>
+    <div class="col-6 text-right">
+        <h3>Prix Total : @prixTotal </h3>
+        <a class="btn btn-success">Payer</a>
+    </div>
+</div>
+
+
+
+
+
+
+

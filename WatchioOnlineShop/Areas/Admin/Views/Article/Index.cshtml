@@ -1,0 +1,94 @@
+﻿@using WatchioOnlineShop.Models;
+@model IEnumerable<article>
+
+@{
+    ViewData["Title"] = "Index";
+}
+
+<h1 style="text-align:center">Bonjour @User.Identity.Name, CRUD ARTICLES</h1>
+<hr>
+
+
+<br />
+<br />
+<div class="row">
+    <div class="col-6">
+        <h2 class="text-info">Liste Des Articles</h2>
+    </div>
+    <div class="col-6 text-right">
+        <a asp-action="Create" class="btn btn-info"><i class="fas fa-plus"></i>&nbsp; Nouvel Article</a>
+    </div>
+</div>
+<br />
+<div>
+    <table class="table table-striped border" id="myTable">
+        <thead class="thead-dark">
+            <tr class="table-dark">
+                <th>
+                    Image
+                </th>
+                <th>
+                    Article
+                </th>
+                <th>
+                    Prix
+                </th>
+                <th>
+                    Categorie
+                </th>
+                <th>
+                    Disponibilité
+                </th>
+                <th>
+                    Quantité
+                </th>
+                <th></th>
+                <th></th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var item in Model)
+            {
+                <tr>
+                    <td>
+                        <img src="~/@item.image" width="100px" height="100px">
+                    </td>
+                    <td>@item.name</td>
+                    <td>@item.prix</td>
+                    <td>@item.categorie.name</td>
+                    <td>@item.disponible</td>
+                    <td>@item.quantite</td>
+                    <td>
+                        <partial name="_BoutonPartial" model="@item.Id" />  <!--Bouton d'actions contient l'ID-->
+                    </td>
+                </tr>
+            }
+        </tbody>
+
+    </table>
+</div>
+
+@section scripts{
+    <script src="//cdn.jsdelivr.net/npm/alertifyjs@1.11.2/build/alertify.min.js"></script>
+    <script src="//cdn.datatables.net/1.10.25/js/jquery.dataTables.min.js"></script>
+
+    <script type="text/javascript">
+        $(document).ready(function () {
+            $('#myTable').DataTable();
+        });
+        $(function(){
+            var save = '@TempData["creer"]'
+            if(save!='') {
+                alertify.success(save);
+            }
+            var edit = '@TempData["modifier"]'
+            if(edit!='') {
+                alertify.success(edit);
+            }
+            var del = '@TempData["supprimmer"]'
+            if (del!='') {
+                alertify.error(del);
+            }
+        })
+    </script>
+}

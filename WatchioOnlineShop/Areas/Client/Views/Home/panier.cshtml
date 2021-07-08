@@ -1,0 +1,73 @@
+﻿@using WatchioOnlineShop.Models;
+@model List<article>
+
+@{ ViewData["Title"] = "Acheter"; }
+
+@{
+    double prixTotal = 0;
+    @foreach (var item in Model)
+    {
+        prixTotal += item.prix;
+    }
+}
+<h1 style="text-align:center">Bonjour @User.Identity.Name, votre panier</h1>
+<hr>
+
+<!--------PAGE FINAL DU CHECKCOUT-->
+<!--ADD TOTAL PRICE AND A LIST OF ARTICE ID'S TO ORDER TABLE IN HOMECONTROLLER PANIER MEHTOD-->
+<div class="row">
+    <div class="col-6">
+        <a asp-action="Index" asp-controller="Home" class="btn btn-success">Naviguer Article</a>
+    </div>
+    <div class="col-6 text-right">
+        <h3 class="total">Prix Total :<span class="prixtotal" style="color: #053a4a; font-family: cursive" > @prixTotal </span>DH</h3>
+        <br/>
+        <a asp-action="Checkout" asp-controller="Commande" class="btn btn-info">Checkout</a>
+    </div>
+</div>
+<hr />
+<div class="row">
+    <table class="table table-bordered">
+        <thead class="thead-dark">
+            <tr>
+                <th>Image</th>
+                <th>Article</th>
+                <th>Prix</th>
+                <th>Categorie</th>
+                <th>Action</th>
+                <th></th>
+            </tr>
+        </thead>
+        <tbody>
+            @*<form asp-action="Checkout" method="post">*@
+            @foreach (var item in Model)
+            {
+                <tr>
+                    <td>
+                        <img src="~/@item.image" width="200px" height="150px" />
+
+                    </td>
+                    <td>@item.name</td>
+                    <td>@item.prix</td>
+                    <td>@item.categorie.name</td>
+                    <td>
+
+                        <a asp-area="Client" asp-action="supprimmerPanier" asp-controller="Home" asp-route-id="@item.Id" class="btn btn-danger">
+                            Annuler
+                        </a>
+
+                    </td>
+                </tr>
+            }
+
+        </tbody>
+    </table>
+</div>
+
+
+
+
+
+
+
+
